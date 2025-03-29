@@ -1,0 +1,70 @@
+1) start endpoint : 
+anvil
+
+- compile a smart contract : 
+forge build
+
+2) deploy a smart contart in foundry:
+forge create SimpleStorage --interactive 
+
+3)deploy smart contract with a script : 
+forge script script/Deploy.sol 
+
+4) use an .env file : 
+source .env 
+#display those variables : 
+echo $PRIVATE_KEY 
+
+5) store private key in a password protected file 
+cast wallet import defaultkey --intercative  
+-  the default keystrore will be stored in this address : 
+   0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+
+6) run forge scrip with a password protected file 
+- if we dont add --broadcast it will only simulate the transaction 
+forge script script/Deploy.s.sol:Deploy --rpc-url http://localhost:8545
+--account defaultKey --sender 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 --broadcast 
+-vvvv 
+
+7) intercating with deployed contract :
+contract_address : 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512  
+cast send 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 "store(uint256)" 123 
+--rpc-url $RPC_URL  --private-key $PRIVATE_KEY
+
+forge script script/Deploy.s.sol:Deploy --rpc-url $SEPOLIA_RPC_URL 
+--private-key $PRIVATE_KEY --broadcast
+Contract Address: 0x441981802802F68E55055c800E7cBD20963D9dCc
+forge script script/interactions.s.sol:FundFundMe  --rpc-url 127.0.0.1:8545
+
+8) installl a rpo in forge : (we can also use github repo link)
+forge install smartcontracts/chainlink-brownie-contracts&1.1.1 
+--no-commit 
+The benefit of the cache file is to store temporary 
+system files facilitating the compilation process 
+
+9) do a crosschain call : 
+forge test --mt function_name -vvv --fork-url $SEPOLIA_RPC_URL
+
+10) tp know how much of our code has been tested 
+forge coverage  -vvv --fork-url $SEPOLIA_RPC_URL
+
+11) display the storage layout of a contract : 
+forge inspect FundMe storageLayout
+
+Essentially : in etherium we have mainly 3 types of transactions 
+--> 0 
+--> 1 
+--> 2
+
+- In EVM state variables are stored in storage : where each variable will be stored 
+  in a 32 bytes array
+- for dynamic arrays and mappings elements will be stored using a hash function
+  that determines location where they will be stored. 
+- constants and immutables will be embedded in the contract byte code .
+
+
+
+- to revert from foundry-zksync to foundry run foundryup 
+
+
+
